@@ -1,0 +1,10 @@
+query galleryItem($slug: ID!) {
+  GalleryItem(id: $slug) {
+    content {
+      images {
+        filename
+      }
+    }
+    uuid
+  }
+}

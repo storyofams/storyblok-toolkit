@@ -1,0 +1,18 @@
+query articleItems($perPage: Int) {
+  ArticleItems(per_page: $perPage) {
+    items {
+      content {
+        title
+        teaser_image {
+          filename
+          alt
+        }
+        intro
+      }
+      uuid
+      full_slug
+      slug
+    }
+    total
+  }
+}

@@ -1,0 +1,19 @@
+projects:
+  default:
+    schema:
+      - https://gapi.storyblok.com/v1/api:
+          headers:
+            Token: ${NEXT_PUBLIC_STORYBLOK_TOKEN}
+            Version: "draft"
+    documents: "src/**/*.graphql"
+    extensions:
+      codegen:
+        hooks:
+          afterAllFileWrite:
+            - eslint --fix
+        generates:
+          src/graphql/sdk.ts:
+            plugins:
+              - typescript
+              - typescript-operations
+              - typescript-graphql-request

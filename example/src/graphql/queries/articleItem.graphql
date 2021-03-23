@@ -1,0 +1,12 @@
+query articleItem($slug: ID!) {
+  ArticleItem(id: $slug) {
+    content {
+      title
+      teaser_image {
+        filename
+      }
+      intro
+    }
+    uuid
+  }
+}
