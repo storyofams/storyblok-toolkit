@@ -33,6 +33,10 @@ html[data-theme="dark"] {
   padding: 0 var(--ifm-pre-padding);
 }
 
+.navbar__logo {
+  margin-right: 24px;
+}
+
 .hero__subtitle {
   color: var(--hero-subtitle);
 }

@@ -4,6 +4,7 @@ query galleryItem($slug: ID!) {
       images {
         filename
       }
+      _editable
     }
     uuid
   }

@@ -15,8 +15,6 @@ import {
 type ArticleProps = WithStoryProps;
 
 const Article = ({ story }: ArticleProps) => {
-  // console.log(story);
-
   return (
     <Box
       sx={{

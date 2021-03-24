@@ -935,7 +935,7 @@ export type ArticleItemQuery = { __typename?: 'QueryType' } & {
         content?: Maybe<
           { __typename?: 'ArticleComponent' } & Pick<
             ArticleComponent,
-            'title' | 'intro'
+            'title' | 'intro' | '_editable'
           > & {
               teaser_image?: Maybe<
                 { __typename?: 'Asset' } & Pick<Asset, 'filename'>
@@ -989,11 +989,14 @@ export type GalleryItemQuery = { __typename?: 'QueryType' } & {
   GalleryItem?: Maybe<
     { __typename?: 'GalleryItem' } & Pick<GalleryItem, 'uuid'> & {
         content?: Maybe<
-          { __typename?: 'GalleryComponent' } & {
-            images?: Maybe<
-              Array<Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'filename'>>>
-            >;
-          }
+          { __typename?: 'GalleryComponent' } & Pick<
+            GalleryComponent,
+            '_editable'
+          > & {
+              images?: Maybe<
+                Array<Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'filename'>>>
+              >;
+            }
         >;
       }
   >;
@@ -1008,6 +1011,7 @@ export const ArticleItemDocument = gql`
           filename
         }
         intro
+        _editable
       }
       uuid
     }
@@ -1040,6 +1044,7 @@ export const GalleryItemDocument = gql`
         images {
           filename
         }
+        _editable
       }
       uuid
     }

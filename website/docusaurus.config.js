@@ -15,7 +15,7 @@ module.exports = {
       title: 'Storyblok Toolkit',
       logo: {
         alt: 'Story of AMS Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
