@@ -15,7 +15,8 @@ module.exports = {
       title: 'Storyblok Toolkit',
       logo: {
         alt: 'Story of AMS Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
+        srcDark: 'img/logo-dark.png',
       },
       items: [
         {
@@ -23,6 +24,16 @@ module.exports = {
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
+        },
+        {
+          href: '/docs',
+          label: 'Getting Started',
+          position: 'right',
+        },
+        {
+          href: '/docs/api/StoryProvider',
+          label: 'API',
+          position: 'right',
         },
         {
           href: 'https://github.com/storyofams/storyblok-toolkit',
@@ -53,7 +64,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Story of AMS.`,
+      copyright: `Copyright © ${new Date().getFullYear()} <a href="https://storyofams.com" target="_blank" rel="noopener">Story of AMS<a/>.`,
     },
   },
   presets: [

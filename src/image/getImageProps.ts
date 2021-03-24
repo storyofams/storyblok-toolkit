@@ -1,7 +1,23 @@
 export interface GetImagePropsOptions {
-  fixed?: number[];
-  fluid?: number | number[];
-  /** @default true */
+  /**
+   * Optimize the image sizes for a fixed size. Use if you know the exact size
+   * the image will be.
+   * Format: `[width, height]`.
+   */
+  fixed?: [number, number];
+  /**
+   * Optimize the image sizes for a fluid size. Fluid is for images that stretch
+   * a container of variable size (different size based on screen size).
+   * Use if you don't know the exact size the image will be.
+   * Format: `width` or `[width, height]`.
+   */
+  fluid?: number | [number, number];
+  /**
+   * Apply the `smart` filter.
+   * @see https://www.storyblok.com/docs/image-service#facial-detection-and-smart-cropping
+   *
+   * @default true
+   */
   smart?: boolean;
 }
 

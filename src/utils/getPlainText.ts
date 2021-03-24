@@ -41,19 +41,23 @@ const renderNodes = (nodes: any, addNewlines: boolean) =>
     .map((node) => renderNode(node, addNewlines))
     .filter((node) => node !== null)
     .join('')
-    // Remove multiple spaces with one
+    // Replace multiple spaces with one
     .replace(/[^\S\r\n]{2,}/g, ' ');
 
-interface GetExcerptOptions {
-  /* @default true */
+export interface GetPlainTextOptions {
+  /**
+   * Whether to add newlines (`\n\n`) after nodes and instead of hr's and
+   * br's.
+   *
+   * @default true
+   */
   addNewlines?: boolean;
-  maxLength?: number;
 }
 
 export const getPlainText = (
   richtext: Richtext,
-  { addNewlines, maxLength }: GetExcerptOptions = {},
-) => {
+  { addNewlines }: GetPlainTextOptions = {},
+): string => {
   if (!richtext?.content?.length) {
     return '';
   }
@@ -63,9 +67,5 @@ export const getPlainText = (
     addNewlines !== undefined ? addNewlines : true,
   );
 
-  if (!text || !maxLength || text?.length < maxLength) {
-    return text;
-  }
-
-  return `${text?.substring(0, maxLength)}…`;
+  return text;
 };

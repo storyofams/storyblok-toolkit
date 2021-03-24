@@ -18,7 +18,7 @@ interface ContextProps {
 
 interface ProviderProps {
   children: ReactNode;
-  /*
+  /**
    * Relations that need to be resolved in preview mode, for example:
    * `['Post.author']`
    */
