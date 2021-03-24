@@ -1,7 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface NextPreviewHandlersProps {
+  /**
+   * A secret token (random string of characters) to activate preview mode.
+   */
   previewToken: string;
+  /**
+   * Storyblok API token with preview access (access to draft versions)
+   */
   storyblokToken: string;
 }
 

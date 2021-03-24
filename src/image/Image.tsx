@@ -12,12 +12,19 @@ interface ImageProps
       HTMLImageElement
     >,
     GetImagePropsOptions {
-  /*
-    It's recommended to put lazy=false on images that are already in viewport
-    on load
-    @default true
-  */
+  /**
+   * It's recommended to put lazy=false on images that are already in viewport
+   * on load. If false, the image is loaded eagerly.
+   *
+   * @default true
+   */
   lazy?: boolean;
+  /**
+   * The media attribute specifies a media condition (similar to a media query)
+   * that the user agent will evaluate for each <source> element.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture#the_media_attribute
+   */
   media?: string;
 }
 
