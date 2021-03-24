@@ -17,7 +17,7 @@
       <img src="https://img.shields.io/github/stars/storyofams/storyblok-toolkit.svg?style=social&label=Star&maxAge=86400" />
     </a>
   </p>
-  <p align="center">Batteries-included toolset for efficient development of React frontends with Storyblok as a headless CMS.</p>
+  <p align="center">Batteries-included toolset for efficient development of React frontends with Storyblok as a headless CMS. <a href="https://storyblok-toolkit.vercel.app/" target="_blank">View docs</a></p>
 </p>
 
 ---
