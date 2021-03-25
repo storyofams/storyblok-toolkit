@@ -3,16 +3,12 @@ import { GetStaticProps } from 'next';
 import { Box, Text, Flex } from 'rebass';
 import SbEditable from 'storyblok-react';
 import { sdk } from '~/lib/graphqlClient';
-import {
-  WithStoryProps,
-  withStory,
-  Image,
-} from '@storyofams/storyblok-toolkit';
+import { WithStoryProps, useStory, Image } from '@storyofams/storyblok-toolkit';
 
 type GalleryProps = WithStoryProps;
 
-const Gallery = ({ story }: GalleryProps) => {
-  // console.log(story);
+const Gallery = ({ story: providedStory }: GalleryProps) => {
+  const story = useStory(providedStory);
 
   return (
     <Box
@@ -53,7 +49,7 @@ const Gallery = ({ story }: GalleryProps) => {
   );
 };
 
-export default withStory(Gallery);
+export default Gallery;
 
 export const getStaticProps: GetStaticProps = async () => {
   let story;

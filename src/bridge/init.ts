@@ -21,7 +21,8 @@ export const init = (
       window.storyblok.init();
 
       // Update story on input in Visual Editor
-      // this will alter the state and replaces the current story with a current raw story object and resolve relations
+      // this will alter the state and replaces the current story with a
+      // current raw story object and resolve relations
       window.storyblok.on('input', (event) => {
         if (event.story.content.uuid === story?.content?.uuid) {
           event.story.content = window.storyblok.addComments(
