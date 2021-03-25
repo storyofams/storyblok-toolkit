@@ -39,7 +39,7 @@ export const nextPreviewHandlers = ({
 
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!story || !story?.uuid) {
-    return res.status(401).json({ message: 'Invalid slug' });
+    return res.status(400).json({ message: 'Invalid slug' });
   }
 
   // Enable Preview Mode by setting the cookies

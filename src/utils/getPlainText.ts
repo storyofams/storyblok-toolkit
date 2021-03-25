@@ -29,7 +29,7 @@ const renderNode = (node: any, addNewlines: boolean) => {
     ].includes(node.type)
   ) {
     return `${renderNodes(node.content, addNewlines)}${
-      addNewlines ? '\n\n' : ''
+      addNewlines ? '\n\n' : ' '
     }`;
   }
 
