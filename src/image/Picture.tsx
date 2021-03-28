@@ -52,13 +52,9 @@ export const Picture = forwardRef(
   ) => {
     const splitSrc = src?.split('/f/');
     const webpSrc = `${splitSrc[0]}/filters:format(webp)/f/${splitSrc[1]}`;
-    let webpSrcset = srcSet || webpSrc;
-
-    if (webpSrcset) {
-      webpSrcset = webpSrcset
-        .replace(/\/filters:(.*)\/f\//gm, '/filters:$1:format(webp)/f/')
-        .replace(/\/(?!filters:)([^/]*)\/f\//gm, '/$1/filters:format(webp)/f/');
-    }
+    const webpSrcset = (srcSet || webpSrc)
+      .replace(/\/filters:(.*)\/f\//gm, '/filters:$1:format(webp)/f/')
+      .replace(/\/(?!filters:)([^/]*)\/f\//gm, '/$1/filters:format(webp)/f/');
 
     return (
       <picture>

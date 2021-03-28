@@ -1,10 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { cleanup, render, act, screen, waitFor } from '@testing-library/react';
 
+import * as helpers from '../helpers';
 import { Image } from '../Image';
 
 const storyblokImage =
   'https://a.storyblok.com/f/39898/3310x2192/e4ec08624e/demo-image.jpeg';
+
+jest.mock('intersection-observer', () => ({}));
 
 describe('[image] Image', () => {
   afterEach(() => {
@@ -33,28 +36,60 @@ describe('[image] Image', () => {
     expect(screen.getByAltText('flowers')).toHaveAttribute('src');
   });
 
-  it('should create io as loading fallback', async () => {
-    const observe = jest.fn();
-    const unobserve = jest.fn();
-    const disconnect = jest.fn();
+  const observe = jest.fn();
+  const unobserve = jest.fn();
+  const disconnect = jest.fn();
+  let observerCb;
 
-    delete global.window.location;
-    global.window = Object.create(window);
-    global.window.IntersectionObserver = jest.fn(() => ({
+  const observerMock = jest.fn((cb) => {
+    observerCb = cb;
+
+    return {
       observe,
       unobserve,
       disconnect,
-    })) as any;
+    };
+  });
+
+  beforeEach(() => {
+    window.IntersectionObserver = observerMock as any;
+  });
+
+  it('should use io as loading fallback', async () => {
+    global.HTMLImageElement.prototype.loading = undefined;
+
+    const setLoadingMock = jest.fn();
+
+    jest
+      .spyOn(React, 'useState')
+      .mockImplementation(() => [false, setLoadingMock]);
 
     act(() => {
       render(<Image alt="flowers" src={storyblokImage} />);
     });
 
-    await waitFor(() =>
-      expect(screen.getByAltText('flowers')).toHaveAttribute('src'),
-    );
+    await waitFor(() => expect(observe).toHaveBeenCalledTimes(1));
 
-    expect(observe).toHaveBeenCalled();
+    const target = document.querySelector(`img[alt="flowers"]`);
+    observerCb([{ target, isIntersecting: true }]);
+
+    expect(setLoadingMock).toHaveBeenCalledWith(true);
+  });
+
+  it('should hide placeholder on load', async () => {
+    jest.spyOn(helpers, 'useImageLoader').mockImplementation(() => ({
+      onLoad: jest.fn(),
+      isLoaded: true,
+      setLoaded: jest.fn(),
+    }));
+
+    act(() => {
+      render(<Image alt="flowers" src={storyblokImage} />);
+    });
+
+    expect(screen.getByAltText('')).toHaveStyle('opacity: 0');
+    expect(screen.getByAltText('flowers')).toHaveAttribute('src');
+    expect(screen.getByAltText('flowers')).not.toHaveAttribute('data-src');
   });
 
   it('should render null if src is not a storyblok asset', async () => {
