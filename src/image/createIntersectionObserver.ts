@@ -40,5 +40,6 @@ export const createIntersectionObserver = async (
 
   // Add element to the observer
   io.observe(el);
+
   return io;
 };

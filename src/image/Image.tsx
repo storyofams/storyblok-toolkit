@@ -62,18 +62,12 @@ export const Image = ({
         return;
       } else {
         // Use IntersectionObserver as fallback
-        if (observer.current) observer.current.disconnect();
-
         if (imgRef.current) {
           addIntersectionObserver();
         }
 
         return () => {
           if (observer.current) {
-            if (imgRef.current) {
-              observer.current.unobserve(imgRef.current);
-            }
-
             observer.current.disconnect();
           }
         };
