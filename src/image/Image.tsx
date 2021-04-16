@@ -26,12 +26,19 @@ interface ImageProps
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture#the_media_attribute
    */
   media?: string;
+  /**
+   * Show a Low-Quality Image Placeholder.
+   *
+   * @default true
+   */
+  showPlaceholder?: boolean;
 }
 
 export const Image = ({
   fixed,
   fluid,
   height,
+  showPlaceholder = true,
   smart,
   width,
   ref,
@@ -107,7 +114,9 @@ export const Image = ({
         }}
       />
 
-      <Placeholder src={props.src} shouldShow={!isLoaded} />
+      {showPlaceholder && (
+        <Placeholder src={props.src} shouldShow={!isLoaded} />
+      )}
 
       <Picture
         {...pictureProps}
