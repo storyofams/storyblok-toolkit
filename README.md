@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://storyofams.com/" target="_blank" align="center">
-    <img src="https://avatars.githubusercontent.com/u/19343504" alt="Story of AMS" width="120">
+    <img src="https://avatars.githubusercontent.com/u/19343504" alt="Story of AMS" width="100">
   </a>
   <h1 align="center">@storyofams/storyblok-toolkit</h1>
   <p align="center">
