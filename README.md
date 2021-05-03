@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://storyofams.com/" target="_blank" align="center">
-    <img src="https://storyofams.com/public/story-of-ams-logo-small@3x.png" alt="Story of AMS" width="120">
+    <img src="https://avatars.githubusercontent.com/u/19343504" alt="Story of AMS" width="100">
   </a>
   <h1 align="center">@storyofams/storyblok-toolkit</h1>
   <p align="center">
@@ -17,7 +17,7 @@
       <img src="https://img.shields.io/github/stars/storyofams/storyblok-toolkit.svg?style=social&label=Star&maxAge=86400" />
     </a>
   </p>
-  <p align="center">Batteries-included toolset for efficient development of React frontends with Storyblok as a headless CMS. <a href="https://storyblok-toolkit.vercel.app/" target="_blank">View docs</a></p>
+  <p align="center">Batteries-included toolset for efficient development of React frontends with Storyblok as a headless CMS. <br><a href="https://storyblok-toolkit.vercel.app/" target="_blank">View docs</a></p>
 </p>
 
 ---
