@@ -18,6 +18,8 @@ interface ContextProps {
 
 interface ProviderProps {
   children: ReactNode;
+  /** Storyblok API token (only necessary if resolveRelations is set) */
+  token?: string;
   /**
    * Relations that need to be resolved in preview mode, for example:
    * `['Post.author']`
@@ -27,7 +29,11 @@ interface ProviderProps {
 
 const StoryContext = createContext<ContextProps | undefined>(undefined);
 
-const StoryProvider = ({ children, resolveRelations }: ProviderProps) => {
+const StoryProvider = ({
+  children,
+  token,
+  resolveRelations,
+}: ProviderProps) => {
   const [, setStoryState] = useState(undefined);
   const storyRef = useRef<Story | undefined>(undefined);
 
@@ -46,7 +52,7 @@ const StoryProvider = ({ children, resolveRelations }: ProviderProps) => {
 
   useEffect(() => {
     if (window?.location?.search?.includes('_storyblok=')) {
-      init(storyRef.current, onStoryInput, resolveRelations);
+      init(storyRef.current, onStoryInput, token, resolveRelations);
     }
   }, []);
 

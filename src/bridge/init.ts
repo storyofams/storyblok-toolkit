@@ -14,11 +14,12 @@ const loadBridge = (callback: () => void) => {
 export const init = (
   story: Story,
   onStoryInput: (story: Story) => void,
+  token: string,
   resolveRelations: string[] = [],
 ) => {
   loadBridge(() => {
     if (window.storyblok) {
-      window.storyblok.init();
+      window.storyblok.init({ accessToken: token });
 
       // Update story on input in Visual Editor
       // this will alter the state and replaces the current story with a
