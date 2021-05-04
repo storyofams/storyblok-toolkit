@@ -34,6 +34,8 @@ interface ImageProps
   showPlaceholder?: boolean;
 }
 
+const cache = new Set();
+
 export const Image = ({
   fixed,
   fluid,
@@ -48,6 +50,7 @@ export const Image = ({
   const { onLoad, isLoaded, setLoaded } = useImageLoader();
   const imgRef = useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
+  const isCached = useRef(cache.has(props.src));
 
   const addIntersectionObserver = async () => {
     observer.current = await (
@@ -81,6 +84,12 @@ export const Image = ({
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoaded && !cache.has(props.src)) {
+      cache.add(props.src);
+    }
+  }, [isLoaded]);
 
   if (props.src?.split('/f/')?.length !== 2) {
     console.error('[storyblok-toolkit]: Image needs a Storyblok image as src');
@@ -125,7 +134,7 @@ export const Image = ({
           transform: 'translateZ(0)',
           transition: 'opacity 250ms linear',
           willChange: 'opacity',
-          opacity: isLoaded ? 1 : 0,
+          opacity: isCached.current || isLoaded ? 1 : 0,
         }}
         shouldLoad={isLoading}
         onLoad={onLoad}

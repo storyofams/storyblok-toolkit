@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Box, Text } from 'rebass';
+import { useRouter } from 'next/router';
+import { Box, Button, Text } from 'rebass';
 import SbEditable from 'storyblok-react';
 import { render } from 'storyblok-rich-text-react-renderer';
 import { sdk, staticPropsWithSdk } from '~/lib/graphqlClient';
@@ -10,13 +11,16 @@ import {
   getExcerpt,
   getPlainText,
   Image,
-} from '@storyofams/storyblok-toolkit';
+} from '../../../../src';
 
 type ArticleProps = WithStoryProps;
 
 const Article = ({ story }: ArticleProps) => {
+  const router = useRouter();
+
   return (
     <Box
+      key={router.asPath}
       sx={{
         maxWidth: 728,
         mx: 'auto',
@@ -33,6 +37,19 @@ const Article = ({ story }: ArticleProps) => {
             alt={story?.content?.title}
             lazy={false}
           />
+          <Button
+            mt={3}
+            variant="outline"
+            onClick={() => {
+              router.push(
+                `/article/${
+                  router.query?.slug === 'article-1' ? 'article-2' : 'article-1'
+                }`,
+              );
+            }}
+          >
+            Switch article
+          </Button>
           <Text mt={5} as="h1">
             {story?.content?.title}
           </Text>
