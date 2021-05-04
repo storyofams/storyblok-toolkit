@@ -3,7 +3,7 @@ import { Story } from '../story';
 const loadBridge = (callback: () => void) => {
   if (!window.storyblok) {
     const script = document.createElement('script');
-    script.src = `//app.storyblok.com/f/storyblok-latest.js`;
+    script.src = `//app.storyblok.com/f/storyblok-v2-latest.js`;
     script.onload = callback;
     document.body.appendChild(script);
   } else {
@@ -18,26 +18,16 @@ export const init = (
   resolveRelations: string[] = [],
 ) => {
   loadBridge(() => {
-    if (window.storyblok) {
-      window.storyblok.init({ accessToken: token });
+    if (window.StoryblokBridge) {
+      window.storyblok = new window.StoryblokBridge({
+        // accessToken: token,
+        resolveRelations,
+      });
 
       // Update story on input in Visual Editor
-      // this will alter the state and replaces the current story with a
-      // current raw story object and resolve relations
       window.storyblok.on('input', (event) => {
         if (event.story.content.uuid === story?.content?.uuid) {
-          event.story.content = window.storyblok.addComments(
-            event.story.content,
-            event.story.id,
-          );
-
-          window.storyblok.resolveRelations(
-            event.story,
-            resolveRelations,
-            () => {
-              onStoryInput(event.story);
-            },
-          );
+          onStoryInput(event.story);
         }
       });
     }

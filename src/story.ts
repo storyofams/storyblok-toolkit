@@ -46,6 +46,7 @@ declare global {
   }
   interface Window {
     storyblok: StoryblokBridge;
+    StoryblokBridge: any;
     StoryblokCacheVersion: number;
   }
 }
