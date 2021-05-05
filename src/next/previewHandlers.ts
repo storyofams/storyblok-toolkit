@@ -2,6 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface NextPreviewHandlersProps {
   /**
+   * Disable checking if a story with slug exists
+   *
+   * @default false
+   */
+  disableStoryCheck?: boolean;
+  /**
    * A secret token (random string of characters) to activate preview mode.
    */
   previewToken: string;
@@ -12,6 +18,7 @@ interface NextPreviewHandlersProps {
 }
 
 export const nextPreviewHandlers = ({
+  disableStoryCheck,
   previewToken,
   storyblokToken,
 }: NextPreviewHandlersProps) => async (
@@ -29,8 +36,13 @@ export const nextPreviewHandlers = ({
     return res.status(401).json({ message: 'Invalid token' });
   }
 
+  if (disableStoryCheck) {
+    res.setPreviewData({});
+    res.redirect(`/${req.query.slug}`);
+  }
+
   // Fetch Storyblok to check if the provided `slug` exists
-  const { story } = await fetch(
+  let { story } = await fetch(
     `https://api.storyblok.com/v1/cdn/stories/${req.query.slug}?token=${storyblokToken}&version=draft`,
     {
       method: 'GET',
