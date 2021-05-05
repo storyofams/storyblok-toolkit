@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import qs from 'qs';
 
 interface NextPreviewHandlersProps {
   /**
@@ -25,26 +26,28 @@ export const nextPreviewHandlers = ({
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  if (req.query.slug?.[0] === 'clear') {
+  const { token, slug, ...rest } = req.query || {};
+
+  if (slug?.[0] === 'clear') {
     res.clearPreviewData();
     return res.redirect(req.headers.referer || '/');
   }
 
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
-  if (req.query.token !== previewToken || !req.query.slug) {
+  if (token !== previewToken || !slug) {
     return res.status(401).json({ message: 'Invalid token' });
   }
 
   if (disableStoryCheck) {
     res.setPreviewData({});
-    res.redirect(`${req.query.slug}`);
+    res.redirect(`${slug}?${qs.stringify(rest)}`);
     return;
   }
 
   // Fetch Storyblok to check if the provided `slug` exists
   let { story } = await fetch(
-    `https://api.storyblok.com/v1/cdn/stories/${req.query.slug}?token=${storyblokToken}&version=draft`,
+    `https://api.storyblok.com/v1/cdn/stories/${slug}?token=${storyblokToken}&version=draft`,
     {
       method: 'GET',
     },
@@ -60,5 +63,5 @@ export const nextPreviewHandlers = ({
 
   // Redirect to the path from the fetched post
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-  res.redirect(`/${story.full_slug}`);
+  res.redirect(`/${story.full_slug}?${qs.stringify(rest)}`);
 };
