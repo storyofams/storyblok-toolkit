@@ -16,6 +16,12 @@ A function that provides API handlers to implement Next.js's preview mode.
 ```ts no-transpile
 interface NextPreviewHandlersProps {
   /**
+   * Disable checking if a story with slug exists
+   *
+   * @default false
+   */
+  disableStoryCheck?: boolean;
+  /**
    * A secret token (random string of characters) to activate preview mode.
    */
   previewToken: string;

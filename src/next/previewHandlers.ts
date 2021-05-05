@@ -39,6 +39,7 @@ export const nextPreviewHandlers = ({
   if (disableStoryCheck) {
     res.setPreviewData({});
     res.redirect(`/${req.query.slug}`);
+    return;
   }
 
   // Fetch Storyblok to check if the provided `slug` exists
