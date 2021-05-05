@@ -38,7 +38,7 @@ export const nextPreviewHandlers = ({
 
   if (disableStoryCheck) {
     res.setPreviewData({});
-    res.redirect(`/${req.query.slug}`);
+    res.redirect(`${req.query.slug}`);
     return;
   }
 
