@@ -35,7 +35,7 @@ export const nextPreviewHandlers = ({
 
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
-  if (token !== previewToken || !slug) {
+  if (token !== previewToken) {
     return res.status(401).json({ message: 'Invalid token' });
   }
 
