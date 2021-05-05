@@ -26,9 +26,9 @@ export const nextPreviewHandlers = ({
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  const { token, slug, ...rest } = req.query || {};
+  const { token, slug, handle, ...rest } = req.query;
 
-  if (slug?.[0] === 'clear') {
+  if (handle?.[0] === 'clear') {
     res.clearPreviewData();
     return res.redirect(req.headers.referer || '/');
   }
@@ -39,10 +39,12 @@ export const nextPreviewHandlers = ({
     return res.status(401).json({ message: 'Invalid token' });
   }
 
+  const restParams =
+    rest && Object.keys(rest).length ? `?${qs.stringify(rest)}` : '';
+
   if (disableStoryCheck) {
     res.setPreviewData({});
-    res.redirect(`${slug}?${qs.stringify(rest)}`);
-    return;
+    return res.redirect(`/${slug}${restParams}`);
   }
 
   // Fetch Storyblok to check if the provided `slug` exists
@@ -63,5 +65,5 @@ export const nextPreviewHandlers = ({
 
   // Redirect to the path from the fetched post
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-  res.redirect(`/${story.full_slug}?${qs.stringify(rest)}`);
+  res.redirect(`/${story.full_slug}${restParams}`);
 };

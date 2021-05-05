@@ -38,7 +38,7 @@ const nextPreviewHandlers: (options: NextPreviewHandlersProps) => (req: NextApiR
 
 ### Basic example
 
-Create the file `./pages/api/preview/[[...slug]].ts` with the following contents:
+Create the file `./pages/api/preview/[[...handle]].ts` with the following contents:
 
 ```ts
 import { nextPreviewHandlers } from '@storyofams/storyblok-toolkit';
@@ -50,10 +50,10 @@ export default nextPreviewHandlers({
 ```
 
 To open preview mode of a story at `/article/article-1`, go to:
-`/api/preview?token=YOUR_PREVIEW_TOKEN&slug=/article/article-1`
+`/api/preview?token=YOUR_PREVIEW_TOKEN&slug=article/article-1`
 
 You can configure preview mode as a preview URL in Storyblok:
-`YOUR_WEBSITE/api/preview?token=YOUR_PREVIEW_TOKEN&slug=/`
+`YOUR_WEBSITE/api/preview?token=YOUR_PREVIEW_TOKEN&slug=`
 
 If you are using the preview handlers and are on a page configured with `withStory`, you will automatically be shown a small indicator to remind you that you are viewing the page in preview mode. It also allows you to exit preview mode. Alternatively you can go to `/api/preview/clear` to exit preview mode.
 
