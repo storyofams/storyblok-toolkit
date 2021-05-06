@@ -24,7 +24,7 @@ export const withStory = <T extends WithStoryProps = WithStoryProps>(
       if (
         (props as any)?.__storyblok_toolkit_preview &&
         typeof window !== 'undefined' &&
-        !window.storyblok?.isInEditor()
+        (!window.storyblok || !window.storyblok.isInEditor())
       ) {
         setPreview(true);
       }
@@ -44,6 +44,7 @@ export const withStory = <T extends WithStoryProps = WithStoryProps>(
             backgroundColor: '#111',
             color: '#fff',
             boxShadow: '0px 12px 24px rgb(102, 102, 102, 0.25)',
+            zIndex: 9999999,
           }}
         >
           <div

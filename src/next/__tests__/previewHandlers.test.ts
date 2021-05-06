@@ -108,12 +108,42 @@ describe('[next] nextPreviewHandlers', () => {
     expect(setPreviewDataMock).not.toBeCalled();
   });
 
+  it('should enable preview mode and redirect if disable story check', async () => {
+    server.use(
+      rest.get(
+        `https://api.storyblok.com/v1/cdn/stories/${slug}`,
+        async (_, res, ctx) => {
+          return res(ctx.status(404), ctx.json({}));
+        },
+      ),
+    );
+
+    const setPreviewDataMock = jest.fn();
+    EventEmitter.prototype.setPreviewData = setPreviewDataMock;
+
+    const { req, res } = createMocks(
+      { method: 'GET', query: { slug, token: previewToken, anything: true } },
+      {
+        eventEmitter: EventEmitter,
+      },
+    );
+
+    await nextPreviewHandlers({
+      disableStoryCheck: true,
+      previewToken,
+      storyblokToken,
+    })(req as any, res as any);
+
+    expect(res._getRedirectUrl()).toBe(`/${slug}?anything=true`);
+    expect(setPreviewDataMock).toBeCalledWith({});
+  });
+
   it('should exit preview mode on clear route', async () => {
     const clearPreviewData = jest.fn();
     EventEmitter.prototype.clearPreviewData = clearPreviewData;
 
     const { req, res } = createMocks(
-      { method: 'GET', query: { slug: ['clear'] } },
+      { method: 'GET', query: { handle: ['clear'] } },
       {
         eventEmitter: EventEmitter,
       },
