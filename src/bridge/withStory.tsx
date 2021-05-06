@@ -24,8 +24,7 @@ export const withStory = <T extends WithStoryProps = WithStoryProps>(
       if (
         (props as any)?.__storyblok_toolkit_preview &&
         typeof window !== 'undefined' &&
-        window.storyblok &&
-        !window.storyblok.isInEditor()
+        (!window.storyblok || !window.storyblok.isInEditor())
       ) {
         setPreview(true);
       }
