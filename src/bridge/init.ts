@@ -16,6 +16,7 @@ export const init = (
   onStoryInput: (story: Story) => void,
   token: string,
   resolveRelations: string[] = [],
+  onSave?: (event: StoryblokEventPayload) => void,
 ) => {
   loadBridge(() => {
     if (window.StoryblokBridge) {
@@ -29,6 +30,10 @@ export const init = (
         if (event.story.content.uuid === story?.content?.uuid) {
           onStoryInput(event.story);
         }
+      });
+
+      window.storyblok.on(['published', 'change'], (event) => {
+        onSave(event);
       });
     }
   });

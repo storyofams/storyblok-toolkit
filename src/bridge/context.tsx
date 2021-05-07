@@ -18,6 +18,8 @@ interface ContextProps {
 
 interface ProviderProps {
   children: ReactNode;
+  /** Fired on Storyblok published & changed event */
+  onSave?(event: StoryblokEventPayload): void;
   /** Storyblok API token (only necessary if resolveRelations is set) */
   token?: string;
   /**
@@ -33,6 +35,7 @@ const StoryProvider = ({
   children,
   token,
   resolveRelations,
+  onSave,
 }: ProviderProps) => {
   const [, setStoryState] = useState(undefined);
   const storyRef = useRef<Story | undefined>(undefined);
@@ -52,7 +55,7 @@ const StoryProvider = ({
 
   useEffect(() => {
     if (window?.location?.search?.includes('_storyblok=')) {
-      init(storyRef.current, onStoryInput, token, resolveRelations);
+      init(storyRef.current, onStoryInput, token, resolveRelations, onSave);
     }
   }, []);
 
