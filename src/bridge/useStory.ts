@@ -11,5 +11,7 @@ export const useStory = (newStory: Story) => {
     context?.setStory(newStory);
   }, [newStory]);
 
-  return context?.story === undefined ? newStory : context?.story;
+  return context?.story === undefined || newStory?.uuid !== context?.story?.uuid
+    ? newStory
+    : context?.story;
 };
