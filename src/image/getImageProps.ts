@@ -66,15 +66,15 @@ export const getImageProps = (
 
         if (widths[i] * fluidWidth <= originalWidth) {
           srcSets.push(
-            `${imageService}/${currentWidth}x${
-              widths[i] * fluidHeight
-            }${smart}${path} ${currentWidth}w`,
+            `${imageService}/${currentWidth}x${Math.round(
+              widths[i] * fluidHeight,
+            )}${smart}${path} ${currentWidth}w`,
           );
         } else if (widths[i] <= 1) {
           srcSets.push(
-            `${imageService}/${currentWidth}x${
-              widths[i] * fluidHeight
-            }${smart}${path} ${originalWidth}w`,
+            `${imageService}/${currentWidth}x${Math.round(
+              widths[i] * fluidHeight,
+            )}${smart}${path} ${originalWidth}w`,
           );
           break;
         }
