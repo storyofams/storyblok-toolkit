@@ -28,9 +28,8 @@ export const getClient = ({
     headers: {
       Token,
       Version:
-        version || process.env.NODE_ENV === 'development'
-          ? 'draft'
-          : 'published',
+        version ||
+        (process.env.NODE_ENV === 'development' ? 'draft' : 'published'),
       ...(additionalOptions?.headers || {}),
     },
   });
