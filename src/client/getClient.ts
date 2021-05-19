@@ -23,7 +23,7 @@ export const getClient = ({
   token: Token,
   version,
 }: ClientOptions) =>
-  new GraphQLClient('https://gapi.storyblok.com/v1/api', {
+  new GraphQLClient(process.env.NEXT_PUBLIC_STORYBLOK_ENDPOINT ? process.env.NEXT_PUBLIC_STORYBLOK_ENDPOINT : 'https://gapi.storyblok.com/v1/api', {
     ...(additionalOptions || {}),
     headers: {
       Token,
