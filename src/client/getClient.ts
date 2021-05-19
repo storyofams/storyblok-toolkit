@@ -1,6 +1,12 @@
 import { GraphQLClient } from 'graphql-request';
 
 export interface ClientOptions {
+  /**   
+   * Which GraphQL endpoint to use (override default endpoint).
+   *
+   * @default 'https://gapi.storyblok.com/v1/api'
+   **/  
+   endpoint?: string;
   /**
    * Custom fetch init parameters, `graphql-request` version.
    *
@@ -19,11 +25,12 @@ export interface ClientOptions {
 }
 
 export const getClient = ({
+  endpoint,
   additionalOptions,
   token: Token,
   version,
 }: ClientOptions) =>
-  new GraphQLClient('https://gapi.storyblok.com/v1/api', {
+  new GraphQLClient(endpoint ?? 'https://gapi.storyblok.com/v1/api', {
     ...(additionalOptions || {}),
     headers: {
       Token,

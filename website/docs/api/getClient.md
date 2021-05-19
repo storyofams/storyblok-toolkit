@@ -18,6 +18,12 @@ This function expects the dependencies `graphql-request` and `graphql` to be ins
 ```ts no-transpile
 interface ClientOptions {
   /**
+   * Which GraphQL endpoint to use (override default endpoint).
+   *
+   * @default 'https://gapi.storyblok.com/v1/api'
+   **/
+   endpoint?: string;
+  /**
    * Custom fetch init parameters, `graphql-request` version.
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#parameters
