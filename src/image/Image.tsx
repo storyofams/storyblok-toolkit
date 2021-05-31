@@ -13,6 +13,12 @@ interface ImageProps
     >,
     GetImagePropsOptions {
   /**
+   * Object-fit the image.
+   *
+   * @default 'cover'
+   */
+  fit?: 'contain' | 'cover';
+  /**
    * It's recommended to put lazy=false on images that are already in viewport
    * on load. If false, the image is loaded eagerly.
    *
@@ -35,7 +41,9 @@ interface ImageProps
 }
 
 export const Image = ({
+  fit = 'cover',
   fixed,
+  focus,
   fluid,
   height,
   showPlaceholder = true,
@@ -87,7 +95,12 @@ export const Image = ({
     return null;
   }
 
-  const imageProps = getImageProps(props.src, { fixed, fluid, smart });
+  const imageProps = getImageProps(props.src, {
+    fixed,
+    fluid,
+    focus,
+    smart,
+  });
 
   const pictureStyles: CSSProperties = {
     position: 'absolute',
@@ -95,7 +108,7 @@ export const Image = ({
     left: '0px',
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: fit,
     objectPosition: 'center center',
   };
 

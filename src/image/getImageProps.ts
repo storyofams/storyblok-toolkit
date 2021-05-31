@@ -13,6 +13,12 @@ export interface GetImagePropsOptions {
    */
   fluid?: number | [number, number];
   /**
+   * Focus point to define the center of the image.
+   * Format: <left>x<top>:<right>x<bottom>
+   * @see https://www.storyblok.com/docs/image-service#custom-focal-point
+   */
+  focus?: string;
+  /**
    * Apply the `smart` filter.
    * @see https://www.storyblok.com/docs/image-service#facial-detection-and-smart-cropping
    *
@@ -26,12 +32,16 @@ export const getImageProps = (
   options?: GetImagePropsOptions,
 ) => {
   if (!imageUrl) {
-    return {};
+    return {
+      width: 0,
+      height: 0,
+    };
   }
 
   const imageService = '//img2.storyblok.com';
   const path = imageUrl.replace('//a.storyblok.com', '').replace('https:', '');
-  const smart = options?.smart === false ? '' : '/smart';
+  const smart = options?.smart === false || options?.focus ? '' : '/smart';
+  const filters = options?.focus ? `/filters:focal(${options.focus})` : '';
 
   const dimensions = path.match(/\/(\d*)x(\d*)\//);
   const originalWidth = parseInt(dimensions?.[1]);
@@ -43,13 +53,17 @@ export const getImageProps = (
         src: `${imageService}${path}`,
         srcSet: `${imageService}/${options.fixed[0]}x${
           options.fixed[1]
-        }${smart}${path} 1x,
+        }${smart}${filters}${path} 1x,
       ${imageService}/${options.fixed[0] * 2}x${
           options.fixed[1] * 2
-        }${smart}/filters:quality(70)${path} 2x,
+        }${smart}/filters:quality(70)${
+          filters ? filters.split('filters')?.[1] : ''
+        }${path} 2x,
       ${imageService}/${options.fixed[0] * 3}x${
           options.fixed[1] * 3
-        }${smart}/filters:quality(50)${path} 3x,`,
+        }${smart}/filters:quality(50)${
+          filters ? filters.split('filters')?.[1] : ''
+        }${path} 3x,`,
         width: originalWidth,
         height: originalHeight,
       };
@@ -68,13 +82,13 @@ export const getImageProps = (
           srcSets.push(
             `${imageService}/${currentWidth}x${Math.round(
               widths[i] * fluidHeight,
-            )}${smart}${path} ${currentWidth}w`,
+            )}${smart}${filters}${path} ${currentWidth}w`,
           );
         } else if (widths[i] <= 1) {
           srcSets.push(
             `${imageService}/${currentWidth}x${Math.round(
               widths[i] * fluidHeight,
-            )}${smart}${path} ${originalWidth}w`,
+            )}${smart}${filters}${path} ${originalWidth}w`,
           );
           break;
         }
@@ -83,7 +97,7 @@ export const getImageProps = (
       return {
         sizes: `(max-width: ${fluidWidth}px) 100vw, ${fluidWidth}px`,
         srcSet: srcSets.join(', '),
-        src: `${imageService}/${fluidWidth}x${fluidHeight}${smart}${path}`,
+        src: `${imageService}/${fluidWidth}x${fluidHeight}${smart}${filters}${path}`,
         width: originalWidth,
         height: originalHeight,
       };

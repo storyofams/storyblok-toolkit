@@ -3,6 +3,8 @@ query galleryItem($slug: ID!) {
     content {
       images {
         filename
+        alt
+        focus
       }
       _editable
     }

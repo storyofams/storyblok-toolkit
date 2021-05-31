@@ -33,6 +33,28 @@ const Article = ({ story }: ArticleProps) => {
             alt={story?.content?.title}
             lazy={false}
           />
+
+          <Box
+            width="120px"
+            height="120px"
+            mt="40px"
+            overflow="hidden"
+            css={{
+              borderRadius: '50%',
+              '.storyblok-image-wrapper': {
+                height: '100%',
+              },
+            }}
+          >
+            <Image
+              width="100%"
+              src={story?.content?.teaser_image?.filename}
+              focus={story?.content?.teaser_image?.focus}
+              fixed={[120, 120]}
+              alt={story?.content?.title}
+            />
+          </Box>
+
           <Text mt={5} as="h1">
             {story?.content?.title}
           </Text>
