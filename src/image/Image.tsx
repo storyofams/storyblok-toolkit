@@ -6,7 +6,7 @@ import { Picture } from './Picture';
 import { Placeholder } from './Placeholder';
 import { Wrapper } from './Wrapper';
 
-interface ImageProps
+export interface ImageProps
   extends React.DetailedHTMLProps<
       React.ImgHTMLAttributes<HTMLImageElement>,
       HTMLImageElement
