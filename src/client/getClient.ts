@@ -1,12 +1,12 @@
 import { GraphQLClient } from 'graphql-request';
 
 export interface ClientOptions {
-  /**   
+  /**
    * Which GraphQL endpoint to use (override default endpoint).
    *
    * @default 'https://gapi.storyblok.com/v1/api'
-   **/  
-   endpoint?: string;
+   **/
+  endpoint?: string;
   /**
    * Custom fetch init parameters, `graphql-request` version.
    *

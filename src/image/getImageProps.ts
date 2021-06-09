@@ -50,7 +50,7 @@ export const getImageProps = (
   if (options) {
     if (options.fixed) {
       return {
-        src: `${imageService}${path}`,
+        src: `${imageService}${smart}${filters}${path}`,
         srcSet: `${imageService}/${options.fixed[0]}x${
           options.fixed[1]
         }${smart}${filters}${path} 1x,
@@ -105,7 +105,7 @@ export const getImageProps = (
   }
 
   return {
-    src: `${imageService}${path}`,
+    src: `${imageService}${smart}${filters}${path}`,
     width: originalWidth,
     height: originalHeight,
   };

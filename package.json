@@ -3,10 +3,10 @@
   "description": "Batteries-included toolset for efficient development of React frontends with Storyblok as a headless CMS.",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/esm/src/index.js",
+  "jsnext:main": "dist/esm/src/index.js",
+  "types": "dist/esm/index.d.ts",
   "sideEffects": false,
   "files": [
     "/dist"
@@ -29,6 +29,7 @@
     "semantic-release": "semantic-release"
   },
   "peerDependencies": {
+    "graphql": "14.x || 15.x",
     "graphql-request": "3.x",
     "react": "16.x | 17.x",
     "react-dom": "16.x | 17.x"

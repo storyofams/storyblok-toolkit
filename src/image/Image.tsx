@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 
 import { getImageProps, GetImagePropsOptions } from './getImageProps';
 import { hasNativeLazyLoadSupport, useImageLoader } from './helpers';
@@ -52,9 +52,9 @@ export const Image = ({
   ref,
   ...props
 }: ImageProps) => {
-  const [isLoading, setLoading] = useState(props.lazy === false);
+  const [isLoading, setLoading] = React.useState(props.lazy === false);
   const { onLoad, isLoaded, setLoaded } = useImageLoader();
-  const imgRef = useRef<HTMLImageElement>();
+  const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
 
   const addIntersectionObserver = async () => {
