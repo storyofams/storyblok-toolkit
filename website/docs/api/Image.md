@@ -80,6 +80,10 @@ interface ImageProps
    */
   media?: string;
   /**
+   * This function will be called once the full-size image loads.
+   */
+  onLoad?(): void;
+  /**
    * Show a Low-Quality Image Placeholder.
    *
    * @default true
