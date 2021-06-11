@@ -33,6 +33,10 @@ export interface ImageProps
    */
   media?: string;
   /**
+   * This function will be called once the full-size image loads.
+   */
+  onLoad?(): void;
+  /**
    * Show a Low-Quality Image Placeholder.
    *
    * @default true
@@ -46,6 +50,7 @@ export const Image = ({
   focus,
   fluid,
   height,
+  onLoad: onLoadProp,
   showPlaceholder = true,
   smart,
   width,
@@ -53,7 +58,7 @@ export const Image = ({
   ...props
 }: ImageProps) => {
   const [isLoading, setLoading] = React.useState(props.lazy === false);
-  const { onLoad, isLoaded, setLoaded } = useImageLoader();
+  const { onLoad, isLoaded, setLoaded } = useImageLoader(onLoadProp);
   const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
 
@@ -67,7 +72,7 @@ export const Image = ({
 
   useEffect(() => {
     if (imgRef.current?.complete && imgRef.current.src) {
-      setLoaded(true);
+      setLoaded();
       return;
     }
 
