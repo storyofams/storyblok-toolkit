@@ -4,8 +4,16 @@ export const hasNativeLazyLoadSupport = (): boolean =>
   typeof HTMLImageElement !== `undefined` &&
   `loading` in HTMLImageElement.prototype;
 
-export const useImageLoader = () => {
-  const [isLoaded, setLoaded] = useState(false);
+export const useImageLoader = (onLoadProp?: () => void) => {
+  const [isLoaded, setLoadedState] = useState(false);
+
+  const setLoaded = () => {
+    setLoadedState(true);
+
+    if (onLoadProp) {
+      onLoadProp();
+    }
+  };
 
   const onLoad: ReactEventHandler<HTMLImageElement> = (e) => {
     if (isLoaded) {
@@ -24,10 +32,10 @@ export const useImageLoader = () => {
           // ignore error, we just go forward
         })
         .then(() => {
-          setLoaded(true);
+          setLoaded();
         });
     } else {
-      setLoaded(true);
+      setLoaded();
     }
   };
 
