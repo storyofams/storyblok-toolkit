@@ -17,6 +17,13 @@ interface PictureProps extends ImageProps, GetImagePropsOptions {
   shouldLoad?: boolean;
 }
 
+const addFilterToSrc = (src: string, filter: string) =>
+  src.includes(filter)
+    ? src
+    : src
+        .replace(/\/filters:(.*?)\/f\//gm, `/filters:$1:${filter}/f/`)
+        .replace(/\/(?!filters:)([^/]*)\/f\//gm, `/$1/filters:${filter}/f/`);
+
 const Image = ({
   alt = '',
   imgRef,
@@ -50,11 +57,7 @@ export const Picture = forwardRef(
     }: PictureProps,
     ref: Ref<HTMLImageElement>,
   ) => {
-    const splitSrc = src?.split('/f/');
-    const webpSrc = `${splitSrc[0]}/filters:format(webp)/f/${splitSrc[1]}`;
-    const webpSrcset = (srcSet || webpSrc)
-      .replace(/\/filters:(.*)\/f\//gm, '/filters:$1:format(webp)/f/')
-      .replace(/\/(?!filters:)([^/]*)\/f\//gm, '/$1/filters:format(webp)/f/');
+    const webpSrcset = addFilterToSrc(srcSet || src, 'format(webp)');
 
     return (
       <picture>
