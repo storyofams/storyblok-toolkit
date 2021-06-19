@@ -110,4 +110,14 @@ It is a paradisematic country, in which roasted parts of sentences fly into your
 
     expect(result).toBe('');
   });
+
+  it('should return an empty string from empty richtext paragraph', async () => {
+    const rich = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    const result = getPlainText(rich);
+
+    expect(result).toBe('');
+  });
 });
