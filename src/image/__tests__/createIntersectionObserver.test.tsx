@@ -153,4 +153,20 @@ describe('[image] createIntersectionObserver', () => {
 
     expect(optionsMock).toHaveBeenLastCalledWith({ rootMargin: '1250px' });
   });
+
+  it('should not observe if target doesnt exist', async () => {
+    const callbackMock = jest.fn();
+    const component = <div id="test" />;
+
+    act(() => {
+      render(component);
+    });
+
+    const result = await createIntersectionObserver(
+      document.querySelector('#notexistant'),
+      callbackMock,
+    );
+
+    expect(result).toBeNull();
+  });
 });

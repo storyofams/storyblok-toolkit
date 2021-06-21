@@ -38,6 +38,10 @@ export const createIntersectionObserver = async (
     },
   );
 
+  if (!el) {
+    return null;
+  }
+
   // Add element to the observer
   io.observe(el);
 
