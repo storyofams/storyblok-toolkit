@@ -51,13 +51,16 @@ export const Image = ({
   fluid,
   height,
   onLoad: onLoadProp,
-  showPlaceholder = true,
+  showPlaceholder: initShowPlaceholder = true,
   smart,
   width,
   ref,
   ...props
 }: ImageProps) => {
   const [isLoading, setLoading] = React.useState(props.lazy === false);
+  const [showPlaceholder, setShowPlaceholder] = React.useState(
+    initShowPlaceholder,
+  );
   const { onLoad, isLoaded, setLoaded } = useImageLoader(onLoadProp);
   const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
@@ -133,7 +136,11 @@ export const Image = ({
       />
 
       {showPlaceholder && (
-        <Placeholder src={props.src} shouldShow={!isLoaded} />
+        <Placeholder
+          src={props.src}
+          shouldShow={!isLoaded}
+          onFadeEnd={setShowPlaceholder}
+        />
       )}
 
       <Picture
