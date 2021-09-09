@@ -13,7 +13,7 @@ The component will automatically try to load a WebP version of the image if the 
 
 Lazy loading uses the native browser implementation if available, otherwise an IntersectionObserver (polyfilled if needed) is used as fallback.
 
-The low-quality image placeholder is a small (max 32 pixels wide), blurred version of the image that is loaded as fast as possible and presented while the full image is loading. As soon as the full image loads, the placeholder is faded out.
+The low-quality image placeholder is a small (max 32 pixels wide), blurred version of the image that is loaded as fast as possible and presented while the full image is loading. As soon as the full image loads, the placeholder is faded out. Optionally the placeholder can be disabled, then it will just fade it in the full-size image.
 
 ## Parameters
 
@@ -39,6 +39,12 @@ interface GetImagePropsOptions {
    */
   fluid?: number | [number, number];
   /**
+   * Focus point to define the center of the image.
+   * Format: <left>x<top>:<right>x<bottom>
+   * @see https://www.storyblok.com/docs/image-service#custom-focal-point
+   */
+  focus?: string;
+  /**
    * Apply the `smart` filter.
    * @see https://www.storyblok.com/docs/image-service#facial-detection-and-smart-cropping
    *
@@ -54,6 +60,12 @@ interface ImageProps
     >,
     GetImagePropsOptions {
   /**
+   * Object-fit the image.
+   *
+   * @default 'cover'
+   */
+  fit?: 'contain' | 'cover';
+  /**
    * It's recommended to put lazy=false on images that are already in viewport
    * on load. If false, the image is loaded eagerly.
    *
@@ -67,6 +79,16 @@ interface ImageProps
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture#the_media_attribute
    */
   media?: string;
+  /**
+   * This function will be called once the full-size image loads.
+   */
+  onLoad?(): void;
+  /**
+   * Show a Low-Quality Image Placeholder.
+   *
+   * @default true
+   */
+  showPlaceholder?: boolean;
 }
 
 const Image: (props: ImageProps) => JSX.Element

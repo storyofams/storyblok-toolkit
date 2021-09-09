@@ -28,9 +28,9 @@ const renderNode = (node: any, addNewlines: boolean) => {
       NODE_BR,
     ].includes(node.type)
   ) {
-    return `${renderNodes(node.content, addNewlines)}${
-      addNewlines ? '\n\n' : ' '
-    }`;
+    return node.content?.length
+      ? `${renderNodes(node.content, addNewlines)}${addNewlines ? '\n\n' : ' '}`
+      : '';
   }
 
   return null;

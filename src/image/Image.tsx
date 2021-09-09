@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 
 import { getImageProps, GetImagePropsOptions } from './getImageProps';
 import { hasNativeLazyLoadSupport, useImageLoader } from './helpers';
@@ -6,12 +6,18 @@ import { Picture } from './Picture';
 import { Placeholder } from './Placeholder';
 import { Wrapper } from './Wrapper';
 
-interface ImageProps
+export interface ImageProps
   extends React.DetailedHTMLProps<
       React.ImgHTMLAttributes<HTMLImageElement>,
       HTMLImageElement
     >,
     GetImagePropsOptions {
+  /**
+   * Object-fit the image.
+   *
+   * @default 'cover'
+   */
+  fit?: 'contain' | 'cover';
   /**
    * It's recommended to put lazy=false on images that are already in viewport
    * on load. If false, the image is loaded eagerly.
@@ -27,6 +33,10 @@ interface ImageProps
    */
   media?: string;
   /**
+   * This function will be called once the full-size image loads.
+   */
+  onLoad?(): void;
+  /**
    * Show a Low-Quality Image Placeholder.
    *
    * @default true
@@ -37,18 +47,21 @@ interface ImageProps
 const cache = new Set();
 
 export const Image = ({
+  fit = 'cover',
   fixed,
+  focus,
   fluid,
   height,
+  onLoad: onLoadProp,
   showPlaceholder = true,
   smart,
   width,
   ref,
   ...props
 }: ImageProps) => {
-  const [isLoading, setLoading] = useState(props.lazy === false);
-  const { onLoad, isLoaded, setLoaded } = useImageLoader();
-  const imgRef = useRef<HTMLImageElement>();
+  const [isLoading, setLoading] = React.useState(props.lazy === false);
+  const { onLoad, isLoaded, setLoaded } = useImageLoader(onLoadProp);
+  const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
   const isCached = useRef(cache.has(props.src));
 
@@ -62,7 +75,7 @@ export const Image = ({
 
   useEffect(() => {
     if (imgRef.current?.complete && imgRef.current.src) {
-      setLoaded(true);
+      setLoaded();
       return;
     }
 
@@ -96,7 +109,12 @@ export const Image = ({
     return null;
   }
 
-  const imageProps = getImageProps(props.src, { fixed, fluid, smart });
+  const imageProps = getImageProps(props.src, {
+    fixed,
+    fluid,
+    focus,
+    smart,
+  });
 
   const pictureStyles: CSSProperties = {
     position: 'absolute',
@@ -104,7 +122,7 @@ export const Image = ({
     left: '0px',
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: fit,
     objectPosition: 'center center',
   };
 

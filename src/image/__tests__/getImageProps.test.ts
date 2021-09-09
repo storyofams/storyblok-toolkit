@@ -19,6 +19,7 @@ describe('[image] getImageProps', () => {
     expect(props.srcSet).toContain(' 1x');
     expect(props.srcSet).toContain(' 2x');
     expect(props.srcSet).toContain(' 3x');
+    expect(props.srcSet).not.toContain('filters:focal');
     expect(props.width).toBe(3310);
     expect(props.height).toBe(2192);
   });
@@ -43,6 +44,23 @@ describe('[image] getImageProps', () => {
     const props = getImageProps(storyblokImage, { fluid: [1920, 1080] });
 
     expect(props.srcSet).toContain('x1080');
+  });
+
+  it('should set focal point filter if configured', async () => {
+    const focalPoint = '100x500:101x501';
+    let props = getImageProps(storyblokImage, {
+      focus: focalPoint,
+      smart: false,
+    });
+
+    expect(props.src).toContain(`/filters:focal(${focalPoint})`);
+
+    props = getImageProps(storyblokImage, {
+      fixed: [200, 200],
+      focus: focalPoint,
+    });
+
+    expect(props.srcSet).toContain(`/filters:focal(${focalPoint})`);
   });
 
   it('should not set smart filter if configured', async () => {

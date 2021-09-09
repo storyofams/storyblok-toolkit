@@ -37,8 +37,10 @@ const Gallery = ({ story: providedStory }: GalleryProps) => {
                   width="100%"
                   height="100%"
                   src={image?.filename}
+                  focus={image?.focus}
                   fluid={[590, 380]}
                   alt=""
+                  showPlaceholder={false}
                 />
               </Box>
             </Box>

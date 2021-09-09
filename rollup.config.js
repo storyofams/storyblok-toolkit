@@ -17,21 +17,20 @@ export default {
   output: [
     {
       // file: pkg.main,
-      dir: './dist',
-      entryFileNames: '[name].js',
+      dir: './dist/cjs',
       format: 'cjs',
       exports: 'named',
       sourcemap: true,
     },
     {
       // file: pkg.module,
-      dir: './dist',
-      entryFileNames: '[name].es.js',
+      dir: './dist/esm',
       format: 'es',
       exports: 'named',
       sourcemap: true,
     },
   ],
+  preserveModules: true,
   plugins: [
     clear({
       targets: ['dist'],

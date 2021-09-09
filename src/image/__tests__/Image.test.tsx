@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { cleanup, render, act, screen, waitFor } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 

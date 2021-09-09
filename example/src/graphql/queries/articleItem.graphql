@@ -4,6 +4,7 @@ query articleItem($slug: ID!) {
       title
       teaser_image {
         filename
+        focus
       }
       intro
       _editable

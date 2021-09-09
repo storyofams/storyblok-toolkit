@@ -31,6 +31,29 @@ describe('[bridge] helpers: useImageLoader', () => {
     });
   });
 
+  it('should call onload prop on load', async () => {
+    const setLoadedMock = jest.fn();
+    jest
+      .spyOn(React, 'useState')
+      .mockImplementation(() => [false, setLoadedMock]);
+
+    jest.spyOn(global, 'Image').mockImplementation(() => ({} as any));
+
+    const onLoad = jest.fn();
+
+    const { result } = renderHook(() => useImageLoader(onLoad));
+
+    await act(async () => {
+      expect(onLoad).not.toHaveBeenCalled();
+
+      result.current.onLoad(event);
+
+      await waitFor(() => expect(result.current.isLoaded).toBeTruthy());
+
+      expect(onLoad).toHaveBeenCalled();
+    });
+  });
+
   it('should decode image on load if needed', async () => {
     const setLoadedMock = jest.fn();
     jest
@@ -63,7 +86,7 @@ describe('[bridge] helpers: useImageLoader', () => {
     const { result } = renderHook(() => useImageLoader());
 
     await act(async () => {
-      result.current.setLoaded(true);
+      result.current.setLoaded();
 
       await waitFor(() => expect(result.current.isLoaded).toBeTruthy());
 
