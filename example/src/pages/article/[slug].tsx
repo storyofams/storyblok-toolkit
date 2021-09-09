@@ -30,6 +30,14 @@ const Article = ({ story }: ArticleProps) => {
     >
       <SbEditable content={story?.content}>
         <div>
+          <Image
+            width="100%"
+            src={story?.content?.teaser_image?.filename}
+            fluid={696}
+            alt={story?.content?.title}
+            lazy={false}
+          />
+
           <Box
             width="120px"
             height="120px"
@@ -50,6 +58,7 @@ const Article = ({ story }: ArticleProps) => {
               alt={story?.content?.title}
             />
           </Box>
+
           <Button
             mt={3}
             variant="outline"
