@@ -26,6 +26,7 @@ export const Placeholder = ({
     <img
       {...props}
       style={{
+        display: shouldShow ? '' : 'none',
         position: 'absolute',
         top: '0px',
         left: '0px',
