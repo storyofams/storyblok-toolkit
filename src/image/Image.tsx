@@ -79,16 +79,21 @@ export const Image = ({
     }
 
     if (!isLoading) {
-      // Use IntersectionObserver as fallback
-      if (imgRef.current) {
-        addIntersectionObserver();
-      }
-
-      return () => {
-        if (observer.current) {
-          observer.current.disconnect();
+      if (hasNativeLazyLoadSupport()) {
+        setLoading(true);
+        return;
+      } else {
+        // Use IntersectionObserver as fallback
+        if (imgRef.current) {
+          addIntersectionObserver();
         }
-      };
+
+        return () => {
+          if (observer.current) {
+            observer.current.disconnect();
+          }
+        };
+      }
     }
   }, []);
 
