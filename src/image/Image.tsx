@@ -57,7 +57,9 @@ export const Image = ({
   ref,
   ...props
 }: ImageProps) => {
-  const [isLoading, setLoading] = React.useState(props.lazy === false);
+  const [isLoading, setLoading] = React.useState(
+    props.lazy === false || hasNativeLazyLoadSupport(),
+  );
   const { onLoad, isLoaded, setLoaded } = useImageLoader(onLoadProp);
   const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
@@ -77,21 +79,16 @@ export const Image = ({
     }
 
     if (!isLoading) {
-      if (hasNativeLazyLoadSupport()) {
-        setLoading(true);
-        return;
-      } else {
-        // Use IntersectionObserver as fallback
-        if (imgRef.current) {
-          addIntersectionObserver();
-        }
-
-        return () => {
-          if (observer.current) {
-            observer.current.disconnect();
-          }
-        };
+      // Use IntersectionObserver as fallback
+      if (imgRef.current) {
+        addIntersectionObserver();
       }
+
+      return () => {
+        if (observer.current) {
+          observer.current.disconnect();
+        }
+      };
     }
   }, []);
 

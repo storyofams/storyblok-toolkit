@@ -35,7 +35,6 @@ const Image = ({
   <img
     {...props}
     alt={alt}
-    decoding="async"
     src={shouldLoad ? src : undefined}
     data-src={!shouldLoad ? src : undefined}
     srcSet={shouldLoad ? srcSet : undefined}
