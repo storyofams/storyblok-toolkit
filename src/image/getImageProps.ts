@@ -44,8 +44,8 @@ export const getImageProps = (
   const filters = options?.focus ? `/filters:focal(${options.focus})` : '';
 
   const dimensions = path.match(/\/(\d*)x(\d*)\//);
-  const originalWidth = parseInt(dimensions?.[1]);
-  const originalHeight = parseInt(dimensions?.[2]);
+  const originalWidth = parseInt(dimensions?.[1]) || undefined;
+  const originalHeight = parseInt(dimensions?.[2]) || undefined;
 
   if (options) {
     if (options.fixed) {
@@ -75,16 +75,16 @@ export const getImageProps = (
         : options.fluid;
       const fluidHeight = Array.isArray(options.fluid) ? options.fluid[1] : 0;
 
-      for (let i = 0; i <= widths.length; i += 1) {
+      for (let i = 0; i < widths.length; i += 1) {
         const currentWidth = Math.round(widths[i] * fluidWidth);
 
-        if (widths[i] * fluidWidth <= originalWidth) {
+        if (!originalWidth || widths[i] * fluidWidth <= originalWidth) {
           srcSets.push(
             `${imageService}/${currentWidth}x${Math.round(
               widths[i] * fluidHeight,
             )}${smart}${filters}${path} ${currentWidth}w`,
           );
-        } else if (widths[i] <= 1) {
+        } else if (originalWidth && widths[i] <= 1) {
           srcSets.push(
             `${imageService}/${currentWidth}x${Math.round(
               widths[i] * fluidHeight,

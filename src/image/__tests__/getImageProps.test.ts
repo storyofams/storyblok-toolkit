@@ -34,6 +34,17 @@ describe('[image] getImageProps', () => {
     expect(props.height).toBe(2192);
   });
 
+  it('should optimize props for fluid', async () => {
+    const props = getImageProps(
+      'https://a.storyblok.com/f/39898/e4ec08624e/demo-image.jpeg',
+      { fluid: 1080 },
+    );
+
+    expect(props.src).toBeDefined();
+    expect(props.sizes).toBeDefined();
+    expect(props.srcSet).toMatch(/(.*\dw.*){5}/gim);
+  });
+
   it('should not put fluid sizes that are larger than original', async () => {
     const props = getImageProps(storyblokImage, { fluid: 5000 });
 
