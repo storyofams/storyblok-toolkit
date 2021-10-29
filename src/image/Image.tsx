@@ -57,9 +57,7 @@ export const Image = ({
   ref,
   ...props
 }: ImageProps) => {
-  const [isLoading, setLoading] = React.useState(
-    props.lazy === false || hasNativeLazyLoadSupport(),
-  );
+  const [isLoading, setLoading] = React.useState(props.lazy === false);
   const { onLoad, isLoaded, setLoaded } = useImageLoader(onLoadProp);
   const imgRef = React.useRef<HTMLImageElement>();
   const observer = useRef<IntersectionObserver>();
