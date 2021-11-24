@@ -10,7 +10,7 @@ import {
   NODE_BR,
 } from 'storyblok-rich-text-react-renderer';
 
-import { Richtext } from '../story';
+import type { Richtext } from '../story';
 
 const renderNode = (node: any, addNewlines: boolean) => {
   if (node.type === 'text') {

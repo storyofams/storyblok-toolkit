@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import qs from 'qs';
 
 interface NextPreviewHandlersProps {
   /**
@@ -40,7 +39,9 @@ export const nextPreviewHandlers = ({
   }
 
   const restParams =
-    rest && Object.keys(rest).length ? `?${qs.stringify(rest)}` : '';
+    rest && Object.keys(rest).length
+      ? `?${new URLSearchParams(rest as Record<string, string>).toString()}`
+      : '';
 
   if (disableStoryCheck) {
     res.setPreviewData({});
